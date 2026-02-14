@@ -2,23 +2,108 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>My Project</title>
+    <title>Game Score Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 100px;
+            max-width: 500px;
+            margin: 60px auto;
         }
+
         h1 {
-            font-size: 48px;
+            text-align: center;
         }
-        p {
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 25px;
+            cursor: pointer;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .score {
+            margin-top: 20px;
             font-size: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Project</h1>
-    <p>This site is hosted using GitHub Pages.</p>
+
+<h1>Score Calculator</h1>
+
+<label for="collisions">Number of Collisions (0–50)</label>
+<input type="number" id="collisions" min="0" max="50">
+
+<label for="difficulty">Difficulty</label>
+<select id="difficulty">
+    <option value="Easy">Easy</option>
+    <option value="Medium">Medium</option>
+    <option value="Hard">Hard</option>
+</select>
+
+<label for="attempt">Attempt Number</label>
+<input type="number" id="attempt" min="1">
+
+<button onclick="calculateScore()">Calculate Score</button>
+
+<div class="error" id="error"></div>
+<div class="score" id="scoreDisplay"></div>
+
+<script>
+function calculateScore() {
+    const collisionsInput = document.getElementById("collisions").value;
+    const difficulty = document.getElementById("difficulty").value;
+    const attemptInput = document.getElementById("attempt").value;
+
+    const errorDiv = document.getElementById("error");
+    const scoreDiv = document.getElementById("scoreDisplay");
+
+    errorDiv.textContent = "";
+    scoreDiv.textContent = "";
+
+    // Convert to integers
+    const collisions = Number(collisionsInput);
+    const attempt = Number(attemptInput);
+
+    // Validation
+    if (!Number.isInteger(collisions) || collisions < 0 || collisions > 50) {
+        errorDiv.textContent = "Collisions must be an integer between 0 and 50.";
+        return;
+    }
+
+    if (!Number.isInteger(attempt) || attempt < 1) {
+        errorDiv.textContent = "Attempt number must be a positive integer.";
+        return;
+    }
+
+    // --- Simple placeholder scoring formula ---
+    let difficultyMultiplier = 1;
+    if (difficulty === "Medium") difficultyMultiplier = 2;
+    if (difficulty === "Hard") difficultyMultiplier = 3;
+
+    let score = (50 - collisions) * difficultyMultiplier - attempt;
+
+    // Display score
+    scoreDiv.textContent = "Score: " + score;
+}
+</script>
+
 </body>
 </html>
