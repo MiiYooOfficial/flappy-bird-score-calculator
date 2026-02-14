@@ -3,15 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Flappy Bird Score Calculator</title>
+
     <style>
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
+            background: linear-gradient(#70c5ce, #b2e2ff);
+            overflow-x: hidden;
+        }
+
+        /* Main container */
+        .container {
             max-width: 500px;
-            margin: 60px auto;
+            margin: 80px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
         }
 
         h1 {
             text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .bird-image {
+            display: block;
+            margin: 0 auto 30px auto;
+            width: 140px;
         }
 
         label {
@@ -30,6 +51,13 @@
         button {
             margin-top: 25px;
             cursor: pointer;
+            background-color: #f4d03f;
+            border: none;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #f1c40f;
         }
 
         .error {
@@ -42,29 +70,95 @@
             font-size: 20px;
             font-weight: bold;
         }
+
+        /* Animated ground */
+        .ground {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100px;
+            background: repeating-linear-gradient(
+                90deg,
+                #ded895 0px,
+                #ded895 40px,
+                #c0ba6f 40px,
+                #c0ba6f 80px
+            );
+            animation: scrollGround 3s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes scrollGround {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Floating clouds */
+        .cloud {
+            position: absolute;
+            background: white;
+            width: 120px;
+            height: 60px;
+            border-radius: 50px;
+            opacity: 0.8;
+            animation: moveClouds 40s linear infinite;
+        }
+
+        .cloud:before,
+        .cloud:after {
+            content: '';
+            position: absolute;
+            background: white;
+            width: 80px;
+            height: 80px;
+            top: -30px;
+            border-radius: 50%;
+        }
+
+        .cloud:before { left: 10px; }
+        .cloud:after { right: 10px; }
+
+        .cloud1 { top: 80px; left: -150px; animation-duration: 45s; }
+        .cloud2 { top: 180px; left: -200px; animation-duration: 60s; }
+
+        @keyframes moveClouds {
+            from { transform: translateX(0); }
+            to { transform: translateX(200vw); }
+        }
     </style>
 </head>
+
 <body>
 
-<h1>Flappy Bird Score Calculator</h1>
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
 
-<label for="collisions">Number of Collisions (0–50)</label>
-<input type="number" id="collisions" min="0" max="50">
+<div class="container">
+    <h1>Flappy Bird Score Calculator</h1>
 
-<label for="difficulty">Difficulty</label>
-<select id="difficulty">
-    <option value="Easy">Easy</option>
-    <option value="Medium">Medium</option>
-    <option value="Hard">Hard</option>
-</select>
+    <img src="flappy-bird.png" alt="Flappy Bird Logo" class="bird-image">
 
-<label for="attempt">Attempt Number</label>
-<input type="number" id="attempt" min="1">
+    <label for="collisions">Number of Collisions (0–50)</label>
+    <input type="number" id="collisions" min="0" max="50">
 
-<button onclick="calculateScore()">Calculate Score</button>
+    <label for="difficulty">Difficulty</label>
+    <select id="difficulty">
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
+    </select>
 
-<div class="error" id="error"></div>
-<div class="score" id="scoreDisplay"></div>
+    <label for="attempt">Attempt Number</label>
+    <input type="number" id="attempt" min="1">
+
+    <button onclick="calculateScore()">Calculate Score</button>
+
+    <div class="error" id="error"></div>
+    <div class="score" id="scoreDisplay"></div>
+</div>
+
+<div class="ground"></div>
 
 <script>
 function calculateScore() {
@@ -78,11 +172,9 @@ function calculateScore() {
     errorDiv.textContent = "";
     scoreDiv.textContent = "";
 
-    // Convert to integers
     const collisions = Number(collisionsInput);
     const attempt = Number(attemptInput);
 
-    // Validation
     if (!Number.isInteger(collisions) || collisions < 0 || collisions > 50) {
         errorDiv.textContent = "Number of collisions should be an integer between 0 and 50.";
         return;
@@ -93,14 +185,12 @@ function calculateScore() {
         return;
     }
 
-    // --- Simple placeholder scoring formula ---
     let difficultyMultiplier = 1;
     if (difficulty === "Medium") difficultyMultiplier = 2;
     if (difficulty === "Hard") difficultyMultiplier = 3;
 
     let score = (50 - collisions) * difficultyMultiplier - attempt;
 
-    // Display score
     scoreDiv.textContent = "Score: " + score;
 }
 </script>
