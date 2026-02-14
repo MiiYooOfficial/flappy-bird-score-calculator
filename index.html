@@ -160,13 +160,20 @@ function calculateScore() {
         return;
     }
 
-    let difficultyMultiplier = 1;
-    if (difficulty === "Medium") difficultyMultiplier = 2;
-    if (difficulty === "Hard") difficultyMultiplier = 3;
+    let difficultyMultiplier = 8;
+    if (difficulty === "Medium") difficultyMultiplier = 9;
+    if (difficulty === "Hard") difficultyMultiplier = 10;
 
-    let score = (50 - collisions) * difficultyMultiplier - attempt;
+    let score = (50 - collisions - (attempt - 1)) * 2 * difficultyMultiplier;
 
-    scoreDiv.textContent = "Score: " + score;
+    scoreDiv.innerHTML = `
+        <div style="font-size: 22px; margin-top: 10px;">
+            Your Score: <strong>${score}</strong>
+        </div>
+        <div style="margin-top: 10px; font-size: 16px;">
+            🎮 Return to the YouTube video and comment your score!
+        </div>
+    `;
 }
 </script>
 
