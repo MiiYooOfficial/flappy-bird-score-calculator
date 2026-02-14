@@ -5,21 +5,29 @@
     <title>Flappy Bird Score Calculator</title>
 
     <style>
-        body {
+        html, body {
             margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling */
             font-family: Arial, sans-serif;
-            background: linear-gradient(#70c5ce, #b2e2ff);
-            overflow-x: hidden;
         }
 
-        /* Main container */
+        body {
+            background: url("background.png") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main Card */
         .container {
-            max-width: 500px;
-            margin: 80px auto;
-            background: white;
-            padding: 30px;
+            width: 450px;
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             position: relative;
             z-index: 2;
         }
@@ -31,13 +39,13 @@
 
         .bird-image {
             display: block;
-            margin: 0 auto 30px auto;
-            width: 140px;
+            margin: 0 auto 25px auto;
+            width: 130px;
         }
 
         label {
             display: block;
-            margin-top: 20px;
+            margin-top: 15px;
             font-weight: bold;
         }
 
@@ -49,7 +57,7 @@
         }
 
         button {
-            margin-top: 25px;
+            margin-top: 20px;
             cursor: pointer;
             background-color: #f4d03f;
             border: none;
@@ -66,73 +74,37 @@
         }
 
         .score {
-            margin-top: 20px;
+            margin-top: 15px;
             font-size: 20px;
             font-weight: bold;
         }
 
-        /* Animated ground */
-        .ground {
+        /* Scrolling Ground */
+        .ground-wrapper {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 200%;
-            height: 100px;
-            background: repeating-linear-gradient(
-                90deg,
-                #ded895 0px,
-                #ded895 40px,
-                #c0ba6f 40px,
-                #c0ba6f 80px
-            );
+            height: 112px; /* adjust if needed */
+            display: flex;
             animation: scrollGround 3s linear infinite;
             z-index: 1;
+        }
+
+        .ground {
+            width: 50%;
+            background: url("base.png") repeat-x;
+            background-size: auto 112px;
         }
 
         @keyframes scrollGround {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
         }
-
-        /* Floating clouds */
-        .cloud {
-            position: absolute;
-            background: white;
-            width: 120px;
-            height: 60px;
-            border-radius: 50px;
-            opacity: 0.8;
-            animation: moveClouds 40s linear infinite;
-        }
-
-        .cloud:before,
-        .cloud:after {
-            content: '';
-            position: absolute;
-            background: white;
-            width: 80px;
-            height: 80px;
-            top: -30px;
-            border-radius: 50%;
-        }
-
-        .cloud:before { left: 10px; }
-        .cloud:after { right: 10px; }
-
-        .cloud1 { top: 80px; left: -150px; animation-duration: 45s; }
-        .cloud2 { top: 180px; left: -200px; animation-duration: 60s; }
-
-        @keyframes moveClouds {
-            from { transform: translateX(0); }
-            to { transform: translateX(200vw); }
-        }
     </style>
 </head>
 
 <body>
-
-<div class="cloud cloud1"></div>
-<div class="cloud cloud2"></div>
 
 <div class="container">
     <h1>Flappy Bird Score Calculator</h1>
@@ -158,7 +130,10 @@
     <div class="score" id="scoreDisplay"></div>
 </div>
 
-<div class="ground"></div>
+<div class="ground-wrapper">
+    <div class="ground"></div>
+    <div class="ground"></div>
+</div>
 
 <script>
 function calculateScore() {
