@@ -172,9 +172,9 @@ function calculateScore() {
         return;
     }
 
-    let difficultyMultiplier = 1;
-    if (difficulty === "Medium") difficultyMultiplier = 2;
-    if (difficulty === "Hard") difficultyMultiplier = 3;
+    let difficultyMultiplier = 8;
+    if (difficulty === "Medium") difficultyMultiplier = 9;
+    if (difficulty === "Hard") difficultyMultiplier = 10;
 
     let score = Math.max(0, (50 - collisions - (attempt - 1)) * 2 * difficultyMultiplier);
 
