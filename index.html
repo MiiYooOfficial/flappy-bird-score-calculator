@@ -182,8 +182,7 @@ function calculateScore() {
     if (difficulty === "Medium") difficultyMultiplier = 2;
     if (difficulty === "Hard") difficultyMultiplier = 3;
 
-    let score = (50 - collisions - (attempt - 1)) * 2 * difficultyMultiplier;
-    if (score < 0) let score = 0;
+    let score = Math.max(0, (50 - collisions - (attempt - 1)) * 2 * difficultyMultiplier);
 
     scoreDiv.innerHTML = `
         <div style="font-size:22px; margin-top:10px;">
