@@ -21,7 +21,6 @@
             align-items: center;
         }
 
-        /* Main Card */
         .container {
             width: 450px;
             background: rgba(255,255,255,0.95);
@@ -81,7 +80,6 @@
             font-weight: bold;
         }
 
-        /* Scrolling Ground */
         .ground-wrapper {
             position: fixed;
             bottom: 0;
@@ -149,10 +147,8 @@ function calculateScore() {
     errorDiv.textContent = "";
     scoreDiv.innerHTML = "";
 
-    // Allow optional leading minus for now
     const integerPattern = /^-?[0-9]+$/;
 
-    // First check if input is a valid integer format
     if (!integerPattern.test(collisionsInput)) {
         errorDiv.textContent = "Number of collisions must contain digits only.";
         return;
@@ -166,7 +162,6 @@ function calculateScore() {
     const collisions = parseInt(collisionsInput, 10);
     const attempt = parseInt(attemptInput, 10);
 
-    // Now check bounds BEFORE worrying about illegal characters
     if (collisions < 0 || collisions > 50) {
         errorDiv.textContent = "Number of collisions should be an integer between 0 and 50.";
         return;
@@ -177,7 +172,6 @@ function calculateScore() {
         return;
     }
 
-    // --- Placeholder scoring ---
     let difficultyMultiplier = 1;
     if (difficulty === "Medium") difficultyMultiplier = 2;
     if (difficulty === "Hard") difficultyMultiplier = 3;
