@@ -148,15 +148,17 @@ function calculateScore() {
 
     errorDiv.textContent = "";
     scoreDiv.innerHTML = "";
-    
-    const digitsOnly = /^[0-9]+$/;
 
-    if (!digitsOnly.test(collisionsInput)) {
+    // Allow optional leading minus for now
+    const integerPattern = /^-?[0-9]+$/;
+
+    // First check if input is a valid integer format
+    if (!integerPattern.test(collisionsInput)) {
         errorDiv.textContent = "Number of collisions must contain digits only.";
         return;
     }
 
-    if (!digitsOnly.test(attemptInput)) {
+    if (!integerPattern.test(attemptInput)) {
         errorDiv.textContent = "Attempt number must contain digits only.";
         return;
     }
@@ -164,16 +166,18 @@ function calculateScore() {
     const collisions = parseInt(collisionsInput, 10);
     const attempt = parseInt(attemptInput, 10);
 
+    // Now check bounds BEFORE worrying about illegal characters
     if (collisions < 0 || collisions > 50) {
-        errorDiv.textContent = "Number of collisions must be between 0 and 50.";
+        errorDiv.textContent = "Number of collisions should be an integer between 0 and 50.";
         return;
     }
 
-    if (attempt < 1) {
-        errorDiv.textContent = "Attempt number must be a positive integer.";
+    if (attempt <= 0) {
+        errorDiv.textContent = "Attempt number should be a positive integer.";
         return;
     }
 
+    // --- Placeholder scoring ---
     let difficultyMultiplier = 1;
     if (difficulty === "Medium") difficultyMultiplier = 2;
     if (difficulty === "Hard") difficultyMultiplier = 3;
@@ -185,9 +189,7 @@ function calculateScore() {
             Your Final Score: <strong>${score}</strong> 🤩
         </div>
         <div style="margin-top:10px;">
-            🎮 Go back to the YouTube video and comment your score!
-            <br>
-            Let’s see who gets the highest score 👀
+            Go back to the video and comment your score!
         </div>
     `;
 }
